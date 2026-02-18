@@ -16,12 +16,12 @@ export default function Home() {
     <div className="">
       <HeroSection />
       <AboutSection />
-      <Highlights />
-      <PricingSection />
-      <PlansSection />
-      <Amenities />
-      <ProjectGallery />
-      <LocationSection />
+      <div id="highlights"><Highlights /></div>
+      <div id="pricing"><PricingSection /></div>
+      <div id="floor-plan"><PlansSection /></div>
+      <div id="amenities"><Amenities /></div>
+      <div id="gallery"><ProjectGallery /></div>
+      <div id="location"><LocationSection /></div>
       <ConnectivitySection />
       <AboutDeveloper />
       <SiteVisitSection />

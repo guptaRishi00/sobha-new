@@ -47,13 +47,13 @@ const ProjectGallery = () => {
           {galleryImages.map((img, index) => (
             <div
               key={index}
-              className="flex-none w-[350px] md:w-[450px] relative group"
+              className="flex-none w-[260px] md:w-[350px] lg:w-[450px] relative group"
             >
               <div className="overflow-hidden rounded-sm">
                 <img
                   src={img}
                   alt={`Artistic Impression ${index + 1}`}
-                  className="w-full h-[300px] object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-[200px] md:h-[300px] object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
               {/* Artistic Impression Label */}

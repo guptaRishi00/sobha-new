@@ -9,6 +9,7 @@ import {
   MapPin,
   Train,
 } from "lucide-react";
+import EnquireModal from "./EnquireModal";
 
 const connectivityData = {
   Connectivity: [
@@ -41,6 +42,7 @@ const connectivityData = {
 const ConnectivitySection = () => {
   const [activeTab, setActiveTab] =
     useState<keyof typeof connectivityData>("Connectivity");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const tabs = [
     { id: "Connectivity", icon: Train },
@@ -52,18 +54,17 @@ const ConnectivitySection = () => {
 
   return (
     <section className="py-16 px-6 bg-[#F3F6F9]">
-      <div className="max-w-6xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+      <div className="max-w-6xl mx-auto bg-white p-4 md:p-8 rounded-xl shadow-sm border border-gray-100">
         {/* Tab Navigation */}
-        <div className="flex flex-wrap gap-2 mb-8 border-b border-gray-100 pb-4">
+        <div className="flex flex-nowrap gap-2 mb-8 border-b border-gray-100 pb-4 overflow-x-auto no-scrollbar">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex items-center gap-2 px-6 py-3 text-sm font-bold transition-all rounded-lg border ${
-                activeTab === tab.id
-                  ? "bg-[#003380] text-white border-[#003380] shadow-md"
-                  : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
-              }`}
+              className={`flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 text-sm font-bold transition-all rounded-lg border whitespace-nowrap ${activeTab === tab.id
+                ? "bg-[#003380] text-white border-[#003380] shadow-md"
+                : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
+                }`}
             >
               <tab.icon
                 size={18}
@@ -103,11 +104,19 @@ const ConnectivitySection = () => {
 
         {/* Action Button */}
         <div className="flex justify-center mt-10">
-          <button className="bg-[#003380] hover:bg-[#002866] text-white font-bold py-4 px-12 rounded-lg shadow-lg transition-all active:scale-95 border-b-4 border-[#d4a017]">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-[#003380] hover:bg-[#002866] text-white font-bold py-4 px-12 rounded-lg shadow-lg transition-all active:scale-95 border-b-4 border-[#d4a017]"
+          >
             Express Your Interest
           </button>
         </div>
       </div>
+
+      <EnquireModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 };

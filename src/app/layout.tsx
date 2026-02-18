@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import LeadForm from "@/components/LeadForm";
 import EnquiryPopup from "@/components/EnquiryPopup";
+import MobileBottomBar from "@/components/MobileBottomBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +39,7 @@ export default function RootLayout({
         {/* Main Layout Container */}
         <div className="flex flex-1 overflow-hidden">
           {/* Scrollable Main Content (Left Side) */}
-          <main className="flex-1 overflow-y-auto scroll-smooth custom-scrollbar">
+          <main className="flex-1 overflow-y-auto scroll-smooth custom-scrollbar pb-14 lg:pb-0">
             {children}
           </main>
 
@@ -47,6 +48,8 @@ export default function RootLayout({
             <LeadForm />
           </aside>
         </div>
+
+        <MobileBottomBar />
       </body>
     </html>
   );

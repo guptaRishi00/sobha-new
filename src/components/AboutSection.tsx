@@ -2,9 +2,11 @@
 
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import EnquireModal from "./EnquireModal";
 
 const AboutSection = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <section className="py-12 px-6 lg:px-12 bg-white">
@@ -64,7 +66,10 @@ const AboutSection = () => {
           </button>
 
           <div className="pt-2">
-            <button className="bg-[#003380] text-white px-10 py-3 rounded-md font-bold text-sm shadow-md hover:bg-[#002866] transition-colors">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-[#003380] text-white px-10 py-3 rounded-md font-bold text-sm shadow-md hover:bg-[#002866] transition-colors"
+            >
               Express Your Interest
             </button>
           </div>
@@ -82,6 +87,11 @@ const AboutSection = () => {
           </div>
         </div>
       </div>
+
+      <EnquireModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 };

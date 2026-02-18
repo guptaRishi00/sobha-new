@@ -1,4 +1,7 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
+import EnquireModal from "./EnquireModal";
 
 const pricingData = [
   { type: "3 BHK", area: "2300 Sq. Ft.", price: "₹ 5.70 Cr*" },
@@ -7,6 +10,8 @@ const pricingData = [
 ];
 
 const PricingSection = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <section className="py-12 px-6 bg-white">
       <div className="max-w-6xl mx-auto">
@@ -20,10 +25,35 @@ const PricingSection = () => {
           </div>
         </div>
 
-        {/* Pricing Table Container */}
-        <div className="overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
+        {/* Mobile Card Layout */}
+        <div className="md:hidden space-y-4">
+          {pricingData.map((item, index) => (
+            <div
+              key={index}
+              className="border border-gray-200 rounded-xl overflow-hidden shadow-sm"
+            >
+              <div className="bg-[#003380] text-white px-4 py-3 flex items-center justify-between">
+                <span className="font-bold text-base">{item.type}</span>
+                <span className="text-sm font-medium opacity-90">{item.area}</span>
+              </div>
+              <div className="p-4 bg-white space-y-3">
+                <div className="text-center">
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Price Onwards</p>
+                  <p className="text-xl font-bold text-gray-900 mt-0.5">{item.price}</p>
+                </div>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="w-full bg-[#003380] hover:bg-[#002866] text-white text-xs font-bold py-3 rounded-lg transition-all shadow-md active:scale-95 border border-[#d4a017]">
+                  Complete Costing Details
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop Table Layout */}
+        <div className="hidden md:block overflow-hidden rounded-2xl border border-gray-200 shadow-sm">
           <table className="w-full text-left border-collapse">
-            {/* Table Header */}
             <thead>
               <tr className="bg-[#003380] text-white">
                 <th className="py-5 px-8 font-semibold text-sm">Type</th>
@@ -34,8 +64,6 @@ const PricingSection = () => {
                 <th className="py-5 px-8"></th>
               </tr>
             </thead>
-
-            {/* Table Body */}
             <tbody>
               {pricingData.map((item, index) => (
                 <tr
@@ -52,7 +80,9 @@ const PricingSection = () => {
                     {item.price}
                   </td>
                   <td className="py-6 px-8 text-right">
-                    <button className="bg-[#003380] hover:bg-[#002866] text-white text-xs font-bold py-3 px-6 rounded-lg transition-all shadow-md active:scale-95 border border-[#d4a017]">
+                    <button
+                      onClick={() => setIsModalOpen(true)}
+                      className="bg-[#003380] hover:bg-[#002866] text-white text-xs font-bold py-3 px-6 rounded-lg transition-all shadow-md active:scale-95 border border-[#d4a017]">
                       Complete Costing Details
                     </button>
                   </td>
@@ -62,6 +92,11 @@ const PricingSection = () => {
           </table>
         </div>
       </div>
+
+      <EnquireModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 };
