@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import LeadForm from "@/components/LeadForm";
+import EnquiryPopup from "@/components/EnquiryPopup";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-full flex flex-col overflow-hidden bg-white`}
       >
+        <EnquiryPopup />
+
         {/* Full-width Top Navbar */}
         <Header />
 
@@ -40,7 +43,7 @@ export default function RootLayout({
           </main>
 
           {/* Stuck Sidebar (Right Side) */}
-          <aside className="hidden lg:block w-[450px] h-full border-l border-gray-100 bg-white overflow-y-auto">
+          <aside className="hidden lg:block w-[350px] h-full border-l border-gray-100 bg-white overflow-y-auto">
             <LeadForm />
           </aside>
         </div>

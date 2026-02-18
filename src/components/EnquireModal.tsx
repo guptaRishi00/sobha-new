@@ -115,10 +115,10 @@ const EnquireModal = ({ isOpen, onClose }: EnquireModalProps) => {
             <div className="flex-1 border-t border-gray-200" />
           </div>
 
-          <button className="w-full bg-[#25D366] text-white font-bold py-3.5 rounded shadow-lg flex items-center justify-center gap-2 hover:bg-[#1eb956] transition-colors">
+          <a href="https://wa.me/919090907712" target="_blank" rel="noopener noreferrer" className="w-full bg-[#25D366] text-white font-bold py-3.5 rounded shadow-lg flex items-center justify-center gap-2 hover:bg-[#1eb956] transition-colors">
             <MessageCircle size={20} fill="white" />
             Connect On WhatsApp
-          </button>
+          </a>
         </div>
       </div>
     </div>
