@@ -38,7 +38,7 @@ const amenities = [
 
 const Amenities = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  // heelo
   return (
     <section className="py-12 px-6 bg-white">
       <div className="max-w-6xl mx-auto">
