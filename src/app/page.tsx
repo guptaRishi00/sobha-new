@@ -10,19 +10,34 @@ import PlansSection from "@/components/PlansSection";
 import PricingSection from "@/components/PricingSection";
 import ProjectGallery from "@/components/ProjectGallery";
 import SiteVisitSection from "@/components/SiteVisitSection";
+import SobhaProjectsSector106 from "@/components/SobhaProjectsSector106";
+// import SobhaAltusSection from "@/components/SobhaProjectsSector106";
 
 export default function Home() {
   return (
     <div className="">
       <HeroSection />
       <AboutSection />
-      <div id="highlights"><Highlights /></div>
-      <div id="pricing"><PricingSection /></div>
-      <div id="floor-plan"><PlansSection /></div>
-      <div id="amenities"><Amenities /></div>
-      <div id="gallery"><ProjectGallery /></div>
-      <div id="location"><LocationSection /></div>
+      <div id="highlights">
+        <Highlights />
+      </div>
+      <div id="pricing">
+        <PricingSection />
+      </div>
+      <div id="floor-plan">
+        <PlansSection />
+      </div>
+      <div id="amenities">
+        <Amenities />
+      </div>
+      <div id="gallery">
+        <ProjectGallery />
+      </div>
+      <div id="location">
+        <LocationSection />
+      </div>
       <ConnectivitySection />
+      <SobhaProjectsSector106 />
       <AboutDeveloper />
       <SiteVisitSection />
       <Footer />
