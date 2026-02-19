@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { X, User, Phone, Mail, MessageCircle } from "lucide-react";
+import { X, User } from "lucide-react";
 
 interface EnquireModalProps {
   isOpen: boolean;
@@ -23,7 +23,7 @@ const EnquireModal = ({ isOpen, onClose }: EnquireModalProps) => {
       <div className="relative w-full max-w-md bg-white rounded-lg shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
         {/* Header */}
         <div className="bg-[#003380] text-white p-4 flex justify-between items-center">
-          <h2 className="text-xl font-bold">Enquire Now</h2>
+          <h2 className="text-xl font-bold">Schedule a Site Visit</h2>
           <button
             onClick={onClose}
             className="hover:rotate-90 transition-transform"
@@ -76,18 +76,6 @@ const EnquireModal = ({ isOpen, onClose }: EnquireModalProps) => {
                 className="flex-1 px-4 py-3 outline-none text-sm"
               />
             </div>
-
-            <div className="relative">
-              <Mail
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                size={18}
-              />
-              <input
-                type="email"
-                placeholder="Email (Optional)"
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 outline-none text-sm"
-              />
-            </div>
           </div>
 
           {/* Disclaimer */}
@@ -105,20 +93,11 @@ const EnquireModal = ({ isOpen, onClose }: EnquireModalProps) => {
           </div>
 
           {/* Action Buttons */}
-          <button className="w-full bg-[#003380] text-white font-bold py-3.5 rounded shadow-lg hover:bg-[#002866] transition-colors">
-            Express Your Interest
+          <button className="w-full bg-[#003380] text-white font-bold py-3.5 rounded shadow-lg hover:bg-[#002866] transition-colors uppercase tracking-wider">
+            SUBMIT
           </button>
 
-          <div className="relative py-2 flex items-center">
-            <div className="flex-1 border-t border-gray-200" />
-            <span className="px-3 text-xs text-gray-400 font-medium">Or</span>
-            <div className="flex-1 border-t border-gray-200" />
-          </div>
 
-          <a href="https://wa.me/919090907712" target="_blank" rel="noopener noreferrer" className="w-full bg-[#25D366] text-white font-bold py-3.5 rounded shadow-lg flex items-center justify-center gap-2 hover:bg-[#1eb956] transition-colors">
-            <MessageCircle size={20} fill="white" />
-            Connect On WhatsApp
-          </a>
         </div>
       </div>
     </div>
