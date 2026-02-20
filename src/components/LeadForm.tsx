@@ -9,6 +9,7 @@ import {
   Tag,
   MessageCircle,
 } from "lucide-react";
+import { submitToGoogleSheet, getUTMParameters } from "../lib/googleSheet";
 
 const LeadForm = () => {
   // 1. State for form inputs
@@ -34,28 +35,16 @@ const LeadForm = () => {
     }
 
     setIsSubmitting(true);
+    const utms = getUTMParameters();
+    const success = await submitToGoogleSheet({ ...formData, ...utms });
 
-    // Your specific Google Apps Script Web App URL
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxcsMAkj0w25SBUbHVNg9BDfJrAts58CIEotl-hO1NfYDGVjweFwSzmug6cza8erSGjcg/exec";
-
-    try {
-      // Using 'no-cors' mode as required for Google Apps Script redirects
-      await fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      // Reset form and notify user
+    if (success) {
       alert("Thank you! Your interest has been registered successfully.");
       setFormData({ name: "", email: "", phone: "" });
-    } catch (error) {
-      console.error("Submission Error:", error);
+    } else {
       alert("Something went wrong. Please try again later.");
-    } finally {
-      setIsSubmitting(false);
     }
+    setIsSubmitting(false);
   };
 
   return (

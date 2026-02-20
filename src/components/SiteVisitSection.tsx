@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { User, Mail } from "lucide-react";
+import { submitToGoogleSheet, getUTMParameters } from "../lib/googleSheet";
 
 const SiteVisitSection = () => {
   // 1. State for form inputs
@@ -29,29 +30,16 @@ const SiteVisitSection = () => {
     }
 
     setIsSubmitting(true);
+    const utms = getUTMParameters();
+    const success = await submitToGoogleSheet({ ...formData, ...utms });
 
-    // Your specific Google Apps Script Web App URL
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxcsMAkj0w25SBUbHVNg9BDfJrAts58CIEotl-hO1NfYDGVjweFwSzmug6cza8erSGjcg/exec";
-
-    try {
-      // Use 'no-cors' mode for Google Apps Script redirects
-      await fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
+    if (success) {
       alert("Thank you! Your site visit request has been received.");
-
-      // Reset form
       setFormData({ name: "", email: "", phone: "" });
-    } catch (error) {
-      console.error("Submission Error:", error);
-      alert("There was an error submitting your request. Please try again.");
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      alert("There was an error submitting your request.");
     }
+    setIsSubmitting(false);
   };
 
   return (
