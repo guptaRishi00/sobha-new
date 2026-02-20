@@ -5,6 +5,13 @@ import { X } from "lucide-react";
 
 const EnquiryPopup = () => {
     const [isOpen, setIsOpen] = useState(false);
+    // 1. State for form inputs
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        phone: "",
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         // Show popup after a short delay on page load
@@ -13,6 +20,47 @@ const EnquiryPopup = () => {
         }, 1000);
         return () => clearTimeout(timer);
     }, []);
+
+    // 2. Handle input changes
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    // 3. Submission Handler
+    const handleSubmit = async () => {
+        // Basic validation
+        if (!formData.name || !formData.phone) {
+            alert("Please enter both Name and Phone Number.");
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        // Your specific Google Apps Script Web App URL
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxcsMAkj0w25SBUbHVNg9BDfJrAts58CIEotl-hO1NfYDGVjweFwSzmug6cza8erSGjcg/exec";
+
+        try {
+            // Use 'no-cors' mode for Google Apps Script redirects
+            await fetch(SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
+
+            alert("Thank you! Your interest has been registered successfully.");
+
+            // Reset form and close popup
+            setFormData({ name: "", email: "", phone: "" });
+            setIsOpen(false);
+        } catch (error) {
+            console.error("Submission Error:", error);
+            alert("There was an error submitting your request. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     if (!isOpen) return null;
 
@@ -45,7 +93,22 @@ const EnquiryPopup = () => {
                     <div>
                         <input
                             type="text"
+                            name="name"
                             placeholder="Name*"
+                            value={formData.name}
+                            onChange={handleChange}
+                            className="w-full border-b border-gray-300 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-gray-800 transition-colors"
+                        />
+                    </div>
+
+                    {/* Email */}
+                    <div>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={formData.email}
+                            onChange={handleChange}
                             className="w-full border-b border-gray-300 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:border-gray-800 transition-colors"
                         />
                     </div>
@@ -63,7 +126,10 @@ const EnquiryPopup = () => {
                         </div>
                         <input
                             type="tel"
-                            placeholder="Phone Number"
+                            name="phone"
+                            placeholder="Phone Number*"
+                            value={formData.phone}
+                            onChange={handleChange}
                             className="flex-1 py-2.5 text-sm text-gray-700 placeholder-gray-400 focus:outline-none"
                         />
                     </div>
@@ -89,11 +155,13 @@ const EnquiryPopup = () => {
                     </div>
 
                     {/* Express Interest Button */}
-                    <button className="w-full bg-[#003380] hover:bg-[#002866] text-white text-sm font-bold py-3 rounded-lg shadow-md transition-all active:scale-[0.98] uppercase tracking-wider">
-                        SUBMIT
+                    <button
+                        onClick={handleSubmit}
+                        disabled={isSubmitting}
+                        className="w-full bg-[#003380] hover:bg-[#002866] text-white text-sm font-bold py-3 rounded-lg shadow-md transition-all active:scale-[0.98] uppercase tracking-wider disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                        {isSubmitting ? "Submitting..." : "SUBMIT"}
                     </button>
-
-
                 </div>
             </div>
         </div>

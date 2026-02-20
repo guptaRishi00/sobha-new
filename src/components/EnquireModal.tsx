@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { X, User } from "lucide-react";
+import React, { useState } from "react";
+import { X, User, Mail } from "lucide-react";
 
 interface EnquireModalProps {
   isOpen: boolean;
@@ -9,7 +9,56 @@ interface EnquireModalProps {
 }
 
 const EnquireModal = ({ isOpen, onClose }: EnquireModalProps) => {
+  // 1. State for form inputs
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   if (!isOpen) return null;
+
+  // 2. Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // 3. Submission Handler
+  const handleSubmit = async () => {
+    // Basic validation
+    if (!formData.name || !formData.phone) {
+      alert("Please enter both Name and Phone Number.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    // Your specific Google Apps Script Web App URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxcsMAkj0w25SBUbHVNg9BDfJrAts58CIEotl-hO1NfYDGVjweFwSzmug6cza8erSGjcg/exec";
+
+    try {
+      // Use 'no-cors' mode for Google Apps Script redirects
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      alert("Thank you! Your site visit request has been submitted.");
+
+      // Reset form and close modal
+      setFormData({ name: "", email: "", phone: "" });
+      onClose();
+    } catch (error) {
+      console.error("Submission Error:", error);
+      alert("There was an error submitting your request. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -56,7 +105,25 @@ const EnquireModal = ({ isOpen, onClose }: EnquireModalProps) => {
               />
               <input
                 type="text"
+                name="name"
                 placeholder="Name*"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 outline-none text-sm"
+              />
+            </div>
+
+            <div className="relative">
+              <Mail
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={18}
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 outline-none text-sm"
               />
             </div>
@@ -72,7 +139,10 @@ const EnquireModal = ({ isOpen, onClose }: EnquireModalProps) => {
               </div>
               <input
                 type="tel"
-                placeholder="Phone Number"
+                name="phone"
+                placeholder="Phone Number*"
+                value={formData.phone}
+                onChange={handleChange}
                 className="flex-1 px-4 py-3 outline-none text-sm"
               />
             </div>
@@ -93,11 +163,13 @@ const EnquireModal = ({ isOpen, onClose }: EnquireModalProps) => {
           </div>
 
           {/* Action Buttons */}
-          <button className="w-full bg-[#003380] text-white font-bold py-3.5 rounded shadow-lg hover:bg-[#002866] transition-colors uppercase tracking-wider">
-            SUBMIT
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="w-full bg-[#003380] text-white font-bold py-3.5 rounded shadow-lg hover:bg-[#002866] transition-colors uppercase tracking-wider disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? "Submitting..." : "SUBMIT"}
           </button>
-
-
         </div>
       </div>
     </div>
